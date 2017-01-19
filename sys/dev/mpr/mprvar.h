@@ -260,6 +260,7 @@ struct mpr_softc {
 	u_int				mpr_debug;
 	u_int				disable_msix;
 	u_int				disable_msi;
+	int				msi_msgs;
 	int				tm_cmds_active;
 	int				io_cmds_active;
 	int				io_cmds_highwater;
@@ -643,6 +644,7 @@ mpr_unmask_intr(struct mpr_softc *sc)
 int mpr_pci_setup_interrupts(struct mpr_softc *sc);
 int mpr_pci_restore(struct mpr_softc *sc);
 
+void mpr_get_tunables(struct mpr_softc *sc);
 int mpr_attach(struct mpr_softc *sc);
 int mpr_free(struct mpr_softc *sc);
 void mpr_intr(void *);
