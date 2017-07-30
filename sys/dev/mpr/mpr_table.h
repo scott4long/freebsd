@@ -41,63 +41,56 @@ extern struct mpr_table_lookup mpr_event_names[];
 extern struct mpr_table_lookup mpr_phystatus_names[];
 extern struct mpr_table_lookup mpr_linkrate_names[];
 
-void _mpr_print_iocfacts(struct mpr_softc *, MPI2_IOC_FACTS_REPLY *);
-void _mpr_print_portfacts(struct mpr_softc *, MPI2_PORT_FACTS_REPLY *);
-void _mpr_print_event(struct mpr_softc *, MPI2_EVENT_NOTIFICATION_REPLY *);
-void _mpr_print_sasdev0(struct mpr_softc *, MPI2_CONFIG_PAGE_SAS_DEV_0 *);
-void _mpr_print_evt_sas(struct mpr_softc *, MPI2_EVENT_NOTIFICATION_REPLY *);
-void _mpr_print_expander1(struct mpr_softc *, MPI2_CONFIG_PAGE_EXPANDER_1 *);
-void _mpr_print_sasphy0(struct mpr_softc *, MPI2_CONFIG_PAGE_SAS_PHY_0 *);
+void mpr_print_iocfacts(struct mpr_softc *, MPI2_IOC_FACTS_REPLY *);
+void mpr_print_portfacts(struct mpr_softc *, MPI2_PORT_FACTS_REPLY *);
+void mpr_print_event(struct mpr_softc *, MPI2_EVENT_NOTIFICATION_REPLY *);
+void mpr_print_sasdev0(struct mpr_softc *, MPI2_CONFIG_PAGE_SAS_DEV_0 *);
+void mpr_print_evt_sas(struct mpr_softc *, MPI2_EVENT_NOTIFICATION_REPLY *);
+void mpr_print_expander1(struct mpr_softc *, MPI2_CONFIG_PAGE_EXPANDER_1 *);
+void mpr_print_sasphy0(struct mpr_softc *, MPI2_CONFIG_PAGE_SAS_PHY_0 *);
 void mpr_print_sgl(struct mpr_softc *, struct mpr_command *, int);
 void mpr_print_scsiio_cmd(struct mpr_softc *, struct mpr_command *);
 
-static __inline void
-mpr_print_iocfacts(struct mpr_softc *sc, MPI2_IOC_FACTS_REPLY *facts)
-{
-	if (sc->mpr_debug & MPR_XINFO)
-		_mpr_print_iocfacts(sc, facts);
-}
+#define MPR_PRINT_IOCFACTS(sc, facts)				\
+do {								\
+	if ((sc)->mpr_debug & MPR_XINFO)			\
+		mpr_print_iocfacts((sc), (facts));		\
+} while (0)
 
-static __inline void
-mpr_print_portfacts(struct mpr_softc *sc, MPI2_PORT_FACTS_REPLY *facts)
-{
-	if (sc->mpr_debug & MPR_XINFO)
-		_mpr_print_portfacts(sc, facts);
-}
+#define MPR_PRINT_PORTFACTS(sc, facts)				\
+do {								\
+	if ((sc)->mpr_debug & MPR_XINFO)			\
+		mpr_print_portfacts((sc), (facts));		\
+} while (0)
 
-static __inline void
-mpr_print_event(struct mpr_softc *sc, MPI2_EVENT_NOTIFICATION_REPLY *event)
-{
-	if (sc->mpr_debug & MPR_EVENT)
-		_mpr_print_event(sc, event);
-}
+#define MPR_PRINT_EVENT(sc, event)				\
+do {								\
+	if ((sc)->mpr_debug & MPR_EVENT)			\
+		mpr_print_event((sc), (event));			\
+} while (0)
 
-static __inline void
-mpr_print_evt_sas(struct mpr_softc *sc, MPI2_EVENT_NOTIFICATION_REPLY *event)
-{
-	if (sc->mpr_debug & MPR_EVENT)
-		_mpr_print_evt_sas(sc, event);
-}
+#define MPR_PRINT_EVT_SAS(sc, event)				\
+do {								\
+	if ((sc)->mpr_debug & MPR_EVENT)			\
+		mpr_print_evt_sas((sc), (event));		\
+} while (0)
 
-static __inline void
-mpr_print_sasdev0(struct mpr_softc *sc, MPI2_CONFIG_PAGE_SAS_DEV_0 *buf)
-{
-	if (sc->mpr_debug & MPR_XINFO)
-		_mpr_print_sasdev0(sc, buf);
-}
+#define MPR_PRINT_SASDEV0(sc, buf)				\
+do {								\
+	if ((sc)->mpr_debug & MPR_XINFO)			\
+		mpr_print_sasdev0((sc), (buf));			\
+} while (0)
 
-static __inline void
-mpr_print_expander1(struct mpr_softc *sc, MPI2_CONFIG_PAGE_EXPANDER_1 *buf)
-{
-	if (sc->mpr_debug & MPR_XINFO)
-		_mpr_print_expander1(sc, buf);
-}
+#define MPR_PRINT_EXPANDER1(sc, buf)				\
+do {								\
+	if ((sc)->mpr_debug & MPR_XINFO)			\
+		mpr_print_expander1((sc), (buf));		\
+} while (0)
 
-static __inline void
-mpr_print_sasphy0(struct mpr_softc *sc, MPI2_CONFIG_PAGE_SAS_PHY_0 *buf)
-{
-	if (sc->mpr_debug & MPR_XINFO)
-		_mpr_print_sasphy0(sc, buf);
-}
+#define MPR_PRINT_SASPHY0(sc, buf)				\
+do {								\
+	if ((sc)->mpr_debug & MPR_XINFO)			\
+		mpr_print_sasphy0((sc), (buf));			\
+} while (0)
 
 #endif

@@ -197,7 +197,7 @@ mpr_describe_devinfo(uint32_t devinfo, char *string, int len)
 }
 
 void
-_mpr_print_iocfacts(struct mpr_softc *sc, MPI2_IOC_FACTS_REPLY *facts)
+mpr_print_iocfacts(struct mpr_softc *sc, MPI2_IOC_FACTS_REPLY *facts)
 {
 	MPR_PRINTFIELD_START(sc, "IOCFacts");
 	MPR_PRINTFIELD(sc, facts, MsgVersion, 0x%x);
@@ -237,7 +237,7 @@ _mpr_print_iocfacts(struct mpr_softc *sc, MPI2_IOC_FACTS_REPLY *facts)
 }
 
 void
-_mpr_print_portfacts(struct mpr_softc *sc, MPI2_PORT_FACTS_REPLY *facts)
+mpr_print_portfacts(struct mpr_softc *sc, MPI2_PORT_FACTS_REPLY *facts)
 {
 
 	MPR_PRINTFIELD_START(sc, "PortFacts");
@@ -247,7 +247,7 @@ _mpr_print_portfacts(struct mpr_softc *sc, MPI2_PORT_FACTS_REPLY *facts)
 }
 
 void
-_mpr_print_event(struct mpr_softc *sc, MPI2_EVENT_NOTIFICATION_REPLY *event)
+mpr_print_event(struct mpr_softc *sc, MPI2_EVENT_NOTIFICATION_REPLY *event)
 {
 
 	MPR_PRINTFIELD_START(sc, "EventReply");
@@ -259,7 +259,7 @@ _mpr_print_event(struct mpr_softc *sc, MPI2_EVENT_NOTIFICATION_REPLY *event)
 }
 
 void
-_mpr_print_sasdev0(struct mpr_softc *sc, MPI2_CONFIG_PAGE_SAS_DEV_0 *buf)
+mpr_print_sasdev0(struct mpr_softc *sc, MPI2_CONFIG_PAGE_SAS_DEV_0 *buf)
 {
 	MPR_PRINTFIELD_START(sc, "SAS Device Page 0");
 	MPR_PRINTFIELD(sc, buf, Slot, %d);
@@ -288,10 +288,10 @@ _mpr_print_sasdev0(struct mpr_softc *sc, MPI2_CONFIG_PAGE_SAS_DEV_0 *buf)
 }
 
 void
-_mpr_print_evt_sas(struct mpr_softc *sc, MPI2_EVENT_NOTIFICATION_REPLY *event)
+mpr_print_evt_sas(struct mpr_softc *sc, MPI2_EVENT_NOTIFICATION_REPLY *event)
 {
 
-	_mpr_print_event(sc, event);
+	mpr_print_event(sc, event);
 
 	switch(event->Event) {
 	case MPI2_EVENT_SAS_DISCOVERY:
@@ -384,7 +384,7 @@ _mpr_print_evt_sas(struct mpr_softc *sc, MPI2_EVENT_NOTIFICATION_REPLY *event)
 }
 
 void
-_mpr_print_expander1(struct mpr_softc *sc, MPI2_CONFIG_PAGE_EXPANDER_1 *buf)
+mpr_print_expander1(struct mpr_softc *sc, MPI2_CONFIG_PAGE_EXPANDER_1 *buf)
 {
 	MPR_PRINTFIELD_START(sc, "SAS Expander Page 1 #%d", buf->Phy);
 	MPR_PRINTFIELD(sc, buf, PhysicalPort, %d);
@@ -424,7 +424,7 @@ _mpr_print_expander1(struct mpr_softc *sc, MPI2_CONFIG_PAGE_EXPANDER_1 *buf)
 }
 
 void
-_mpr_print_sasphy0(struct mpr_softc *sc, MPI2_CONFIG_PAGE_SAS_PHY_0 *buf)
+mpr_print_sasphy0(struct mpr_softc *sc, MPI2_CONFIG_PAGE_SAS_PHY_0 *buf)
 {
 	MPR_PRINTFIELD_START(sc, "SAS PHY Page 0");
 	MPR_PRINTFIELD(sc, buf, OwnerDevHandle, 0x%04x);
