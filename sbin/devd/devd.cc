@@ -36,7 +36,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 4. Neither the name of the University nor the names of its contributors
+ * 3. Neither the name of the University nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
  *
@@ -95,6 +95,7 @@ __FBSDID("$FreeBSD$");
 #include <map>
 #include <string>
 #include <list>
+#include <stdexcept>
 #include <vector>
 
 #include "devd.h"		/* C compatible definitions */
@@ -410,6 +411,24 @@ var_list::is_set(const string &var) const
 	return (_vars.find(var) != _vars.end());
 }
 
+/** fix_value
+ *
+ * Removes quoted characters that have made it this far. \" are
+ * converted to ". For all other characters, both \ and following
+ * character. So the string 'fre\:\"' is translated to 'fred\:"'.
+ */
+std::string
+var_list::fix_value(const std::string &val) const
+{
+        std::string rv(val);
+        std::string::size_type pos(0);
+
+        while ((pos = rv.find("\\\"", pos)) != rv.npos) {
+                rv.erase(pos, 1);
+        }
+        return (rv);
+}
+
 void
 var_list::set_variable(const string &var, const string &val)
 {
@@ -419,9 +438,9 @@ var_list::set_variable(const string &var, const string &val)
 	 * can consume excessive amounts of systime inside of connect().  Only
 	 * log when we're in -d mode.
 	 */
+	_vars[var] = fix_value(val);
 	if (no_daemon)
 		devdlog(LOG_DEBUG, "setting %s=%s\n", var.c_str(), val.c_str());
-	_vars[var] = val;
 }
 
 void
@@ -710,8 +729,13 @@ config::chop_var(char *&buffer, char *&lhs, char *&rhs) const
 	if (*walker == '"') {
 		walker++;	// skip "
 		rhs = walker;
-		while (*walker && *walker != '"')
+		while (*walker && *walker != '"') {
+			// Skip \" ... We leave it in the string and strip the \ later.
+			// due to the super simplistic parser that we have here.
+			if (*walker == '\\' && walker[1] == '"')
+				walker++;
 			walker++;
+		}
 		if (*walker != '"')
 			return (false);
 		rhs[-2] = '\0';
@@ -1084,6 +1108,7 @@ event_loop(void)
 		if (FD_ISSET(seqpacket_fd, &fds))
 			new_client(seqpacket_fd, SOCK_SEQPACKET);
 	}
+	cfg.remove_pidfile();
 	close(seqpacket_fd);
 	close(stream_fd);
 	close(fd);

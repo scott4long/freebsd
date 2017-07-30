@@ -85,7 +85,7 @@ r88eu_attach_private(struct rtwn_softc *sc)
 	rs = malloc(sizeof(struct r92c_softc), M_RTWN_PRIV, M_WAITOK | M_ZERO);
 
 	rs->rs_txpwr			= &r88e_txpwr;
-	rs->rs_txagc			= &r88e_txagc;
+	rs->rs_txagc			= NULL;
 
 	rs->rs_set_bw20			= r88e_set_bw20;
 	rs->rs_get_txpower		= r88e_get_txpower;
@@ -146,6 +146,7 @@ r88eu_attach(struct rtwn_usb_softc *uc)
 	sc->sc_fw_reset			= r88e_fw_reset;
 	sc->sc_fw_download_enable	= r88e_fw_download_enable;
 #endif
+	sc->sc_llt_init			= r92c_llt_init;
 	sc->sc_set_page_size		= r92c_set_page_size;
 	sc->sc_lc_calib			= r92c_lc_calib;
 	sc->sc_iq_calib			= r88e_iq_calib;	/* XXX TODO */

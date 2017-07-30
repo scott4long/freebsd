@@ -25,8 +25,6 @@
 
 #define RTWN_TX_DESC_SIZE	64
 
-#define RTWN_TXBUFSZ		(16 * 1024)
-
 #define RTWN_BCN_MAX_SIZE	512
 #define RTWN_CAM_ENTRY_LIMIT	64
 
@@ -308,6 +306,7 @@ struct rtwn_softc {
 	void		(*sc_fw_reset)(struct rtwn_softc *, int);
 	void		(*sc_fw_download_enable)(struct rtwn_softc *, int);
 #endif
+	int		(*sc_llt_init)(struct rtwn_softc *);
 	int		(*sc_set_page_size)(struct rtwn_softc *);
 	void		(*sc_lc_calib)(struct rtwn_softc *);
 	void		(*sc_iq_calib)(struct rtwn_softc *);
@@ -472,8 +471,8 @@ void	rtwn_suspend(struct rtwn_softc *);
 
 /* Aliases. */
 #define	rtwn_bb_write		rtwn_write_4
-#define rtwn_bb_read		rtwn_read_4
-#define rtwn_bb_setbits	rtwn_setbits_4
+#define	rtwn_bb_read		rtwn_read_4
+#define	rtwn_bb_setbits		rtwn_setbits_4
 
 /* Device-specific. */
 #define rtwn_rf_read(_sc, _chain, _addr) \
@@ -504,6 +503,8 @@ void	rtwn_suspend(struct rtwn_softc *);
 #define rtwn_fw_download_enable(_sc, _enable) \
 	(((_sc)->sc_fw_download_enable)((_sc), (_enable)))
 #endif
+#define rtwn_llt_init(_sc) \
+	(((_sc)->sc_llt_init)((_sc)))
 #define rtwn_set_page_size(_sc) \
 	(((_sc)->sc_set_page_size)((_sc)))
 #define rtwn_lc_calib(_sc) \
