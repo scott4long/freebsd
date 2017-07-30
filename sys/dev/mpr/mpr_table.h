@@ -42,13 +42,13 @@ extern struct mpr_table_lookup mpr_phystatus_names[];
 extern struct mpr_table_lookup mpr_linkrate_names[];
 extern struct mpr_table_lookup mpr_pcie_linkrate_names[];
 
-void _mpr_print_iocfacts(struct mpr_softc *, MPI2_IOC_FACTS_REPLY *);
-void _mpr_print_portfacts(struct mpr_softc *, MPI2_PORT_FACTS_REPLY *);
-void _mpr_print_event(struct mpr_softc *, MPI2_EVENT_NOTIFICATION_REPLY *);
-void _mpr_print_sasdev0(struct mpr_softc *, MPI2_CONFIG_PAGE_SAS_DEV_0 *);
-void _mpr_print_evt_sas(struct mpr_softc *, MPI2_EVENT_NOTIFICATION_REPLY *);
-void _mpr_print_expander1(struct mpr_softc *, MPI2_CONFIG_PAGE_EXPANDER_1 *);
-void _mpr_print_sasphy0(struct mpr_softc *, MPI2_CONFIG_PAGE_SAS_PHY_0 *);
+void mpr_print_iocfacts(struct mpr_softc *, MPI2_IOC_FACTS_REPLY *);
+void mpr_print_portfacts(struct mpr_softc *, MPI2_PORT_FACTS_REPLY *);
+void mpr_print_event(struct mpr_softc *, MPI2_EVENT_NOTIFICATION_REPLY *);
+void mpr_print_sasdev0(struct mpr_softc *, MPI2_CONFIG_PAGE_SAS_DEV_0 *);
+void mpr_print_evt_sas(struct mpr_softc *, MPI2_EVENT_NOTIFICATION_REPLY *);
+void mpr_print_expander1(struct mpr_softc *, MPI2_CONFIG_PAGE_EXPANDER_1 *);
+void mpr_print_sasphy0(struct mpr_softc *, MPI2_CONFIG_PAGE_SAS_PHY_0 *);
 void mpr_print_sgl(struct mpr_softc *, struct mpr_command *, int);
 void mpr_print_scsiio_cmd(struct mpr_softc *, struct mpr_command *);
 
