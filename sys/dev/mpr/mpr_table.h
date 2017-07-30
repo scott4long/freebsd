@@ -44,7 +44,7 @@ extern struct mpr_table_lookup mpr_pcie_linkrate_names[];
 
 void mpr_print_iocfacts(struct mpr_softc *, MPI2_IOC_FACTS_REPLY *);
 void mpr_print_portfacts(struct mpr_softc *, MPI2_PORT_FACTS_REPLY *);
-void mpr_print_event(struct mpr_softc *, MPI2_EVENT_NOTIFICATION_REPLY *);
+void mpr_print_evt_generic(struct mpr_softc *, MPI2_EVENT_NOTIFICATION_REPLY *);
 void mpr_print_sasdev0(struct mpr_softc *, MPI2_CONFIG_PAGE_SAS_DEV_0 *);
 void mpr_print_evt_sas(struct mpr_softc *, MPI2_EVENT_NOTIFICATION_REPLY *);
 void mpr_print_expander1(struct mpr_softc *, MPI2_CONFIG_PAGE_EXPANDER_1 *);
@@ -52,46 +52,12 @@ void mpr_print_sasphy0(struct mpr_softc *, MPI2_CONFIG_PAGE_SAS_PHY_0 *);
 void mpr_print_sgl(struct mpr_softc *, struct mpr_command *, int);
 void mpr_print_scsiio_cmd(struct mpr_softc *, struct mpr_command *);
 
-#define MPR_PRINT_IOCFACTS(sc, facts)				\
+#define MPR_DPRINT_PAGE(sc, level, func, buf)			\
 do {								\
-	if ((sc)->mpr_debug & MPR_XINFO)			\
-		mpr_print_iocfacts((sc), (facts));		\
+	if ((sc)->mpr_debug & level)				\
+		mpr_print_##func((sc), buf);			\
 } while (0)
 
-#define MPR_PRINT_PORTFACTS(sc, facts)				\
-do {								\
-	if ((sc)->mpr_debug & MPR_XINFO)			\
-		mpr_print_portfacts((sc), (facts));		\
-} while (0)
-
-#define MPR_PRINT_EVENT(sc, event)				\
-do {								\
-	if ((sc)->mpr_debug & MPR_EVENT)			\
-		mpr_print_event((sc), (event));			\
-} while (0)
-
-#define MPR_PRINT_EVT_SAS(sc, event)				\
-do {								\
-	if ((sc)->mpr_debug & MPR_EVENT)			\
-		mpr_print_evt_sas((sc), (event));		\
-} while (0)
-
-#define MPR_PRINT_SASDEV0(sc, buf)				\
-do {								\
-	if ((sc)->mpr_debug & MPR_XINFO)			\
-		mpr_print_sasdev0((sc), (buf));			\
-} while (0)
-
-#define MPR_PRINT_EXPANDER1(sc, buf)				\
-do {								\
-	if ((sc)->mpr_debug & MPR_XINFO)			\
-		mpr_print_expander1((sc), (buf));		\
-} while (0)
-
-#define MPR_PRINT_SASPHY0(sc, buf)				\
-do {								\
-	if ((sc)->mpr_debug & MPR_XINFO)			\
-		mpr_print_sasphy0((sc), (buf));			\
-} while (0)
-
+#define MPR_DPRINT_EVENT(sc, func, buf)				\
+	MPR_DPRINT_PAGE(sc, MPR_EVENT, evt_##func, buf)
 #endif

@@ -269,7 +269,7 @@ mpr_print_portfacts(struct mpr_softc *sc, MPI2_PORT_FACTS_REPLY *facts)
 }
 
 void
-mpr_print_event(struct mpr_softc *sc, MPI2_EVENT_NOTIFICATION_REPLY *event)
+mpr_print_evt_generic(struct mpr_softc *sc, MPI2_EVENT_NOTIFICATION_REPLY *event)
 {
 
 	MPR_PRINTFIELD_START(sc, "EventReply");
@@ -313,7 +313,7 @@ void
 mpr_print_evt_sas(struct mpr_softc *sc, MPI2_EVENT_NOTIFICATION_REPLY *event)
 {
 
-	mpr_print_event(sc, event);
+	mpr_print_evt_generic(sc, event);
 
 	switch(event->Event) {
 	case MPI2_EVENT_SAS_DISCOVERY:
